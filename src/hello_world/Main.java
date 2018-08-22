@@ -8,22 +8,65 @@ public class Main {
 
 		String nameValue = "Dina Dunn";
 		String url = "https://register.rediff.com/register/register.php?FormName=user_details";
+
+		// change the xpath to go under an ID, and then use
+		// //*[@id=tableID]//following::input[1].. ? this is better practice
+
+		// xpaths to write the data to Excel cells
+		// String nameText = "//table[2]//tr[3]//td[contains(text(), 'Full')]";
+		String nameText = "//*[@id='tblcrtac']//following::td[3]";
+
+		String idText = "//*[@id='tblcrtac']//following::td[13]";
+		String pwText = "//*[@id='tblcrtac']//following::td[21]";
+		String cpwText = "//*[@id='tblcrtac']//following::td[27]";
+		String altEmailText = "//*[@id='tblcrtac']//following::td[35]";
+		String checkBox = "//*[@id='tblcrtac']//following::input[@type='checkbox']";
+		String secAnswerText = "//*[@id='tblcrtac']//following::td[51]";
+		String phoneText = "//*[@id='tblcrtac']//td[@class='f14']";
+		String maidenNameText = "//*[@id='tblcrtac']//following::td[57]";
+
+		String inputName = "//*[@id='tblcrtac']//following::input[starts-with(@name,'name')]";
+		String inputId = "//*[@id='tblcrtac']//following::input[contains(@name,'login')]";
+		String inputPw = "//*[@id='tblcrtac']//following::input[starts-with(@name,'pass')]";
+		String inputCpw = "//*[@id='tblcrtac']//following::input[contains(@name,'confirm_pass')]";
+		String inputAltEmail = "//*[@id='tblcrtac']//following::input[starts-with(@name,\"altemail\")]";
+		String inputSecAnswer = "//*[@id='tblcrtac']//following::input[contains(@name,\"hinta\")]";
+		String inputMname = "//*[@id='tblcrtac']//following::input[contains(@name,\"mother\")]";
+		String inputPhone = "//*[@id='tblcrtac']//following::input[starts-with(@name, 'mobno')]";
+
 		String uId = "dunn";
 		String password = "password";
 		String confirmPassword = "password";
 		String email = "email@email.com";
-		
-		//security answers
+
+		// security answers
 		String answer = "Soccer";
 		String answer2 = "";
-		String answer3="";
-		String answer4="";
-		
-		
-		
+		String answer3 = "";
+		String answer4 = "";
+
+		String filePath = "C:\\Users\\DunnPC\\Desktop";
+		String fileName = "seleniumExcelTest.xlsx";
+		String readSheetName = "read";
+		String writeSheetName = "write";
+		String writeSheetName1 = "form";
+		String sendSheetKeys = "sendkeys";
+
 		String mName = "Mary";
 		String areaCode = "United Kingdom";
 		String phoneNumber = "555-555-5555";
+
+		String[] dataToWrite = { "1", "2" };
+
+		// String[] dataToWrite1 = {nameText, nameValue, idText, uId, pwText, password,
+		// cpwText, confirmPassword, altEmailText, email, secAnswerText, answer,
+		// maidenNameText, mName, phoneText, phoneNumber};
+
+		String[] dataToWrite2 = { nameText, idText, pwText, cpwText, altEmailText, secAnswerText, maidenNameText,
+				phoneText };
+
+		String[] keysToSend = { inputName, inputId, inputPw, inputCpw, inputAltEmail, checkBox, inputSecAnswer,
+				inputMname, inputPhone };
 
 		String dobDay = "12";
 		String dobMonth = "APR";
@@ -31,15 +74,30 @@ public class Main {
 		String gender = "f";
 		String country = "Jersey";
 
+		// Wrap.readExcel(filePath, fileName, readSheetName);
+		Thread.sleep(2000);
+		// Wrap.writeExcel(filePath, fileName, writeSheetName, dataToWrite);
+
 		Wrap.setTestUrl(url);
 		System.out.println("Loading");
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+
+		System.out.println("************************Sending keys to form**************************");
+		Wrap.sendKeysFromExcel(filePath, fileName, sendSheetKeys, keysToSend);
+		// Thread.sleep(2000);
+
+		System.out.println("***********************Writing labels in Excel**********************************");
+		Wrap.writeLabelsToExcel(filePath, fileName, writeSheetName1, dataToWrite2);
+
+		Thread.sleep(8000);
+
+		System.out.println("****************Starting scripts*************");
 
 		// setting up security answer to loop through
-//		Wrap.createLoopParams();
-
-		
-		//need to write if statement to change the security answer based on the selected security answer 
+		Wrap.createLoopParams();
+		Wrap.clearInputs();
+		// need to write if statement to change the security answer based on the
+		// selected security answer
 		for (int i = 1; i < Wrap.secQuestionsListSize(); i++) {
 			Wrap.inputFullName(nameValue);
 			Wrap.inputUserId(uId);
@@ -78,9 +136,6 @@ public class Main {
 	}
 }
 
-
-
-
 //
 // // word wrap is alt+shift+y
 
@@ -89,7 +144,7 @@ public class Main {
 // System.setProperty("webdriver.chrome.driver",
 // "C:\\Users\\DunnPC\\Desktop\\chromedriver_win32\\chromedriver.exe");
 // WebDriver driver = new ChromeDriver();
-// driver.get("https://register.rediff.com/register/register.php?FormName=user_details");
+// driver.get("https://register.rediffa.com/register/register.php?FormName=user_details");
 // Thread.sleep(2000);
 //
 // driver.findElement(By.xpath("//div[@id='wrapper']/table[@id='tblcrtac']/tbody/tr[3]/td[3]/input"))
